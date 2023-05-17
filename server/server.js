@@ -14,9 +14,26 @@ const app = express();
 app.use(express.json());
 
 app.get("/api/employees/", async (req, res) => {
-  const employees = await EmployeeModel.find().sort({ created: "desc" });
-  return res.json(employees);
-});
+  try {
+    const { position, level } = req.query;
+
+    let query = {};
+
+    if (position) {
+      query.position = position;
+    }
+
+    if (level) {
+      query.level = level;
+    }
+
+    const employees = await EmployeeModel.find(query).sort({ created: "desc" });
+    return res.json(employees);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
+  }
+}); 
 
 app.get("/api/employees/:id", async (req, res) => {
   const employee = await EmployeeModel.findById(req.params.id);
