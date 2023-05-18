@@ -2,24 +2,23 @@ import React, { useEffect, useState } from "react";
 import Loading from "../Components/Loading";
 import EmployeeTable from "../Components/EmployeeTable";
 
-const fetchEmployees = async (position, level) => {
+const fetchEmployees = async (sortBy, sortOrder) => {
   try {
     let url = "/api/employees";
 
     const params = new URLSearchParams();
+    let queryString = "";
 
-    if (position) {
-      params.append("position", position);
+    if (sortBy && sortOrder) {
+      params.append("sortBy", sortBy);
+      queryString += `&sortBy=${sortBy}`;
+      params.append("sortOrder", sortOrder);
+      queryString += `&sortOrder=${sortOrder}`;
     }
-
-    if (level) {
-      params.append("level", level);
-    }
-
     if (params.toString()) {
       url += `?${params.toString()}`;
     }
-
+    console.log(url);
     const response = await fetch(url);
     const data = await response.json();
     return data;
@@ -45,6 +44,8 @@ const EmployeeList = () => {
   const [employees, setEmployees] = useState(null);
   const [positionFilter, setPositionFilter] = useState("");
   const [levelFilter, setLevelFilter] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   const handleDelete = async (id) => {
     try {
@@ -70,7 +71,7 @@ const EmployeeList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchEmployees(positionFilter, levelFilter);
+        const data = await fetchEmployees(sortBy, sortOrder);
         setEmployees(data);
         setLoading(false);
       } catch (error) {
@@ -80,7 +81,14 @@ const EmployeeList = () => {
     };
 
     fetchData();
-  }, [positionFilter, levelFilter]);
+  }, [sortBy, sortOrder]); //ha ezek változnak lefut ueeffect hook ami meghivja fetchData ami meghivja fetchemployees-t aminek awaittel megvárja a válaszát ha sikeres beállitja válasznak az új employee listet
+
+  const handleSort = (field) => {
+    let newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+
+    setSortBy(field);
+    setSortOrder(newSortOrder);
+  };
 
   if (loading) {
     return <Loading />;
@@ -108,7 +116,24 @@ const EmployeeList = () => {
           onChange={handleFilterChange}
         />
       </div>
-      <EmployeeTable employees={employees} onDelete={handleDelete} />
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <button onClick={() => handleSort("name")}>Name</button>
+            </th>
+            <th>
+              <button onClick={() => handleSort("position")}>Position</button>
+            </th>
+            <th>
+              <button onClick={() => handleSort("level")}>Level</button>
+            </th>
+          </tr>
+        </thead>
+      </table>
+      <div>
+        <EmployeeTable employees={employees} onDelete={handleDelete} />
+      </div>
     </div>
   );
 };

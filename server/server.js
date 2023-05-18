@@ -15,25 +15,24 @@ app.use(express.json());
 
 app.get("/api/employees/", async (req, res) => {
   try {
-    const { position, level } = req.query;
+    const { sortBy, sortOrder } = req.query; //sortBy=name&sortOrder=desc, vagy sortBy=position&sortorder=asc, vagy sortBy=level&sortorder=asc
+    //req.querry egy object
 
-    let query = {};
+    let sortOptions = {};
 
-    if (position) {
-      query.position = position;
+    if (sortBy && sortOrder) {
+      //ha van értéke sortBynak és sortOrdernek akkor :sortOptions nek legyen egy kulcs és egy value-ja
+      sortOptions[sortBy] = sortOrder === "desc" ? -1 : 1; //pl ilyen lesz {name:-1}, vagy {level:-1}, vagy {position:1}
     }
 
-    if (level) {
-      query.level = level;
-    }
-
-    const employees = await EmployeeModel.find(query).sort({ created: "desc" });
+    const employees = await EmployeeModel.find().sort(sortOptions); //sort()egy objectet vár ez lesz maga sortOrder pl ilyen lesz name:"desc", vagy level:"desc"
+    // const employees2 = await EmployeeModel.find(query).sort({ name: "desc" });
     return res.json(employees);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Server error" });
   }
-}); 
+});
 
 app.get("/api/employees/:id", async (req, res) => {
   const employee = await EmployeeModel.findById(req.params.id);
