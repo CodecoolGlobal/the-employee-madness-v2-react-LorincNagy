@@ -2,23 +2,34 @@ import React, { useEffect, useState } from "react";
 import Loading from "../Components/Loading";
 import EmployeeTable from "../Components/EmployeeTable";
 
-const fetchEmployees = async (sortBy, sortOrder) => {
+const fetchEmployees = async (
+  sortBy,
+  sortOrder,
+  positionFilter,
+  levelFilter
+) => {
   try {
     let url = "/api/employees";
 
     const params = new URLSearchParams();
-    let queryString = "";
 
     if (sortBy && sortOrder) {
       params.append("sortBy", sortBy);
-      queryString += `&sortBy=${sortBy}`;
       params.append("sortOrder", sortOrder);
-      queryString += `&sortOrder=${sortOrder}`;
     }
+
+    if (positionFilter) {
+      params.append("positionFilter", positionFilter);
+    }
+
+    if (levelFilter) {
+      params.append("levelFilter", levelFilter);
+    }
+
     if (params.toString()) {
       url += `?${params.toString()}`;
     }
-    console.log(url);
+
     const response = await fetch(url);
     const data = await response.json();
     return data;
@@ -47,6 +58,22 @@ const EmployeeList = () => {
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
 
+  const fetchData = async () => {
+    try {
+      const data = await fetchEmployees(
+        sortBy,
+        sortOrder,
+        positionFilter,
+        levelFilter
+      );
+      setEmployees(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error("Error fetching employees:", error);
+    }
+  };
+
   const handleDelete = async (id) => {
     try {
       await deleteEmployee(id);
@@ -66,22 +93,13 @@ const EmployeeList = () => {
     } else if (name === "level") {
       setLevelFilter(value);
     }
+
+    fetchData();
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchEmployees(sortBy, sortOrder);
-        setEmployees(data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.error("Error fetching employees:", error);
-      }
-    };
-
     fetchData();
-  }, [sortBy, sortOrder]); //ha ezek változnak lefut ueeffect hook ami meghivja fetchData ami meghivja fetchemployees-t aminek awaittel megvárja a válaszát ha sikeres beállitja válasznak az új employee listet
+  }, [sortBy, sortOrder, positionFilter, levelFilter]);
 
   const handleSort = (field) => {
     let newSortOrder = sortOrder === "asc" ? "desc" : "asc";
