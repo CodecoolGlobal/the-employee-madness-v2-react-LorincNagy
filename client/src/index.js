@@ -12,6 +12,7 @@ import EmployeeUpdater from "./Pages/EmployeeUpdater";
 import "./index.css";
 import TableTest from "./Pages/TableTest";
 import FormTest from "./Pages/FormTest";
+import EquipmentLayout from "./Pages/EquipmentLayout/EquipmentLayout";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <EmployeeList />,
+      },
+      {
+        path: "/employees/:search",
         element: <EmployeeList />,
       },
       {
@@ -38,6 +43,25 @@ const router = createBrowserRouter([
       {
         path: "/form-test",
         element: <FormTest />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <EquipmentLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/equipments",
+        element: <EquipmentList />,
+      },
+      {
+        path: "/equipments/create",
+        element: <EquipmentCreator />,
+      },
+      {
+        path: "/equipments/update/:id",
+        element: <EquipmentUpdater />,
       },
     ],
   },
