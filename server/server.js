@@ -14,7 +14,7 @@ if (!MONGO_URL) {
 const app = express()
 app.use(express.json())
 
-app.get("/api/employees/", async (req, res) => {
+app.get("/api/employees/", async (req, res, next) => {
   try {
     const { sortBy, sortOrder, positionFilter, levelFilter } = req.query
 
@@ -36,8 +36,7 @@ app.get("/api/employees/", async (req, res) => {
     const employees = await EmployeeModel.find(query).sort(sortOptions)
     return res.json(employees)
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ error: "Server error" })
+    return next(err)
   }
 })
 

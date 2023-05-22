@@ -2,30 +2,9 @@ import React, { useEffect, useState } from "react";
 import Loading from "../Components/Loading";
 import EquipmentTable from "../Components/EquipmentTable/EquipmentTable";
 
-const fetchEquipments = async (sortBy, sortOrder, nameFilter, typeFilter) => {
+const fetchEquipments = async () => {
   try {
-    let url = "/api/equipments";
-
-    const params = new URLSearchParams();
-
-    if (sortBy && sortOrder) {
-      params.append("sortBy", sortBy);
-      params.append("sortOrder", sortOrder);
-    }
-
-    if (nameFilter) {
-      params.append("nameFilter", nameFilter);
-    }
-
-    if (typeFilter) {
-      params.append("typeFilter", typeFilter);
-    }
-
-    if (params.toString()) {
-      url += `?${params.toString()}`;
-    }
-
-    const response = await fetch(url);
+    const response = await fetch("/api/equipments");
     const data = await response.json();
     return data;
   } catch (error) {
@@ -34,44 +13,26 @@ const fetchEquipments = async (sortBy, sortOrder, nameFilter, typeFilter) => {
   }
 };
 
-const deleteEquipment = async (id) => {
-  try {
-    const response = await fetch(`/api/equipments/${id}`, { method: "DELETE" });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error deleting equipment:", error);
-    throw error;
-  }
-};
-
 const EquipmentList = () => {
   const [loading, setLoading] = useState(true);
-  const [equipments, setEquipments] = useState(null);
-  const [nameFilter, setNameFilter] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
-  const [sortBy, setSortBy] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [equipments, setEquipments] = useState([]);
+  const [name, setEquipmentName] = useState("");
+  const [type, setEquipmentType] = useState("");
 
   const fetchData = async () => {
     try {
-      const data = await fetchEquipments(
-        sortBy,
-        sortOrder,
-        nameFilter,
-        typeFilter
-      );
+      const data = await fetchEquipments();
       setEquipments(data);
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       console.error("Error fetching equipments:", error);
+      setLoading(false);
     }
   };
 
-  const handleDelete = async (id) => {
+  const deleteEquipment = async (id) => {
     try {
-      await deleteEquipment(id);
+      await fetch(`/api/equipments/${id}`, { method: "DELETE" });
       setEquipments((prevEquipments) =>
         prevEquipments.filter((equipment) => equipment._id !== id)
       );
@@ -82,26 +43,16 @@ const EquipmentList = () => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "name") {
-      setNameFilter(value);
+      setEquipmentName(value);
     } else if (name === "type") {
-      setTypeFilter(value);
+      setEquipmentType(value);
     }
-
-    fetchData();
   };
 
   useEffect(() => {
     fetchData();
-  }, [sortBy, sortOrder, nameFilter, typeFilter]);
-
-  const handleSort = (field) => {
-    let newSortOrder = sortOrder === "asc" ? "desc" : "asc";
-
-    setSortBy(field);
-    setSortOrder(newSortOrder);
-  };
+  }, []);
 
   if (loading) {
     return <Loading />;
@@ -110,43 +61,26 @@ const EquipmentList = () => {
   return (
     <div>
       <div>
-        <label htmlFor="nameFilter">Name:</label>
+        <label htmlFor="name">Name:</label>
         <input
           type="text"
           name="name"
-          id="nameFilter"
-          value={nameFilter}
+          id="name"
+          value={name}
           onChange={handleFilterChange}
         />
       </div>
       <div>
-        <label htmlFor="typeFilter">Type:</label>
+        <label htmlFor="type">Type:</label>
         <input
           type="text"
           name="type"
-          id="typeFilter"
-          value={typeFilter}
+          id="type"
+          value={type}
           onChange={handleFilterChange}
         />
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <button onClick={() => handleSort("name")}>Name</button>
-            </th>
-            <th>
-              <button onClick={() => handleSort("type")}>Type</button>
-            </th>
-            <th>
-              <button onClick={() => handleSort("amount")}>Amount</button>
-            </th>
-          </tr>
-        </thead>
-      </table>
-      <div>
-        <EquipmentTable equipments={equipments} onDelete={handleDelete} />
-      </div>
+      <EquipmentTable equipments={equipments} onDelete={deleteEquipment} />
     </div>
   );
 };

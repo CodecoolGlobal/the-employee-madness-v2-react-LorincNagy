@@ -9,7 +9,6 @@ const EquipmentTable = ({ equipments, onDelete }) => {
           <th>Name</th>
           <th>Type</th>
           <th>Amount</th>
-          <th>Action</th>
         </tr>
       </thead>
       <tbody>
