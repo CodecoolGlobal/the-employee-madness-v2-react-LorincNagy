@@ -14,8 +14,8 @@ import TableTest from "./Pages/TableTest";
 import FormTest from "./Pages/FormTest";
 import EquipmentLayout from "./Pages/EquipmentLayout/EquipmentLayout";
 import EquipmentList from "./Pages/EquipmentList";
-// import EquipmentCreator from "./Pages/EquipmentCreator";
-// import EquipmentUpdater from "./Pages/EquipmentUpdater";
+import EquipmentCreator from "./Pages/EquipmentCreator";
+import EquipmentUpdater from "./Pages/EquipmentUpdater";
 
 const router = createBrowserRouter([
   {
@@ -58,14 +58,14 @@ const router = createBrowserRouter([
         path: "/equipments",
         element: <EquipmentList />,
       },
-      // {
-      //   path: "/equipments/create",
-      //   element: <EquipmentCreator />,
-      // },
-      // {
-      //   path: "/equipments/update/:id",
-      //   element: <EquipmentUpdater />,
-      // },
+      {
+        path: "/equipments/create",
+        element: <EquipmentCreator />,
+      },
+      {
+        path: "/equipments/update/:id",
+        element: <EquipmentUpdater />,
+      },
     ],
   },
 ]);

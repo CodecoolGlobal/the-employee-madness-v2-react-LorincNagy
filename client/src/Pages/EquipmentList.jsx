@@ -16,8 +16,6 @@ const fetchEquipments = async () => {
 const EquipmentList = () => {
   const [loading, setLoading] = useState(true);
   const [equipments, setEquipments] = useState([]);
-  const [name, setEquipmentName] = useState("");
-  const [type, setEquipmentType] = useState("");
 
   const fetchData = async () => {
     try {
@@ -41,15 +39,6 @@ const EquipmentList = () => {
     }
   };
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "name") {
-      setEquipmentName(value);
-    } else if (name === "type") {
-      setEquipmentType(value);
-    }
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -60,26 +49,6 @@ const EquipmentList = () => {
 
   return (
     <div>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={name}
-          onChange={handleFilterChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="type">Type:</label>
-        <input
-          type="text"
-          name="type"
-          id="type"
-          value={type}
-          onChange={handleFilterChange}
-        />
-      </div>
       <EquipmentTable equipments={equipments} onDelete={deleteEquipment} />
     </div>
   );
