@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../Components/Loading";
 import EmployeeTable from "../Components/EmployeeTable";
-import Missing from "../Components/Missing";
+import Missing from "./Missing";
 
 const fetchEmployees = async (
   sortBy,
@@ -58,7 +58,7 @@ const deleteEmployee = async (id) => {
 
 const EmployeeList = () => {
   const [loading, setLoading] = useState(true);
-  const [employees, setEmployees] = useState(null);
+  const [employees, setEmployees] = useState([]);
   const [positionFilter, setPositionFilter] = useState("");
   const [levelFilter, setLevelFilter] = useState("");
   const [sortBy, setSortBy] = useState("");

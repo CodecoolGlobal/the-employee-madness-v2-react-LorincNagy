@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import "../Components/EmployeeTable/EmployeeTable.css";
 
 const Missing = ({ employees, onDelete }) => {
   return (
