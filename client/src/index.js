@@ -41,7 +41,7 @@ const router = createBrowserRouter([
         element: <EmployeeUpdater />,
       },
       {
-        path: "/missing",
+        path: "/:missing",
         element: <Missing />,
       },
       {

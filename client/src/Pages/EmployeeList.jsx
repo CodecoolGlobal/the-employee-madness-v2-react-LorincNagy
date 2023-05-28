@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../Components/Loading";
 import EmployeeTable from "../Components/EmployeeTable";
+import Missing from "../Components/Missing";
 
 const fetchEmployees = async (
   sortBy,
@@ -115,6 +116,21 @@ const EmployeeList = () => {
     setSortOrder(newSortOrder);
   };
 
+  const handleTogglePresent = async () => {
+    try {
+      const data = await fetchEmployees(
+        sortBy,
+        sortOrder,
+        positionFilter,
+        levelFilter,
+        search
+      );
+      setEmployees(data);
+    } catch (error) {
+      console.error("Error toggling present:", error);
+    }
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -157,7 +173,12 @@ const EmployeeList = () => {
         </thead>
       </table>
       <div>
-        <EmployeeTable employees={employees} onDelete={handleDelete} />
+        <EmployeeTable
+          employees={employees}
+          onDelete={handleDelete}
+          onTogglePresent={handleTogglePresent}
+        />
+        <Missing employees={employees} onDelete={handleDelete} />
       </div>
     </div>
   );
