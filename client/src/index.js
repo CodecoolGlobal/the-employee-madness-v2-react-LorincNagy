@@ -8,6 +8,7 @@ import ErrorPage from "./Pages/ErrorPage";
 import EmployeeList from "./Pages/EmployeeList";
 import EmployeeCreator from "./Pages/EmployeeCreator";
 import EmployeeUpdater from "./Pages/EmployeeUpdater";
+import Missing from "./Pages/Missing";
 
 import "./index.css";
 import TableTest from "./Pages/TableTest";
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
         element: <EmployeeList />,
       },
       {
-        path: "/employees/:search",
+        path: "/:search",
         element: <EmployeeList />,
       },
       {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/update/:id",
         element: <EmployeeUpdater />,
+      },
+      {
+        path: "/missing",
+        element: <Missing />,
       },
       {
         path: "/table-test",

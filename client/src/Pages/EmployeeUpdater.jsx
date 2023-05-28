@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import EmployeeForm from "../Components/EmployeeForm";
 import Loading from "../Components/Loading";
 
-const updateEmployee = (employee) => {
+const updateEmployee = (employee) => {//updatet-nél patch
   return fetch(`/api/employees/${employee._id}`, {
     method: "PATCH",
     headers: {

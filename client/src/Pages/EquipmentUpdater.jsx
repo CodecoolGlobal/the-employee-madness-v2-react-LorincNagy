@@ -26,6 +26,7 @@ const EquipmentUpdater = () => {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [equipmentLoading, setEquipmentLoading] = useState(true);
 
+
   useEffect(() => {
     setEquipmentLoading(true);
     fetchEquipment(id).then((equipment) => {

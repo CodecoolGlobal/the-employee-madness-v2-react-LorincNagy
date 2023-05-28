@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EmployeeForm from "../Components/EmployeeForm";
 
-const createEmployee = (employee) => {
+const createEmployee = (employee) => {//create-nél post
   return fetch("/api/employees", {
     method: "POST",
     headers: {

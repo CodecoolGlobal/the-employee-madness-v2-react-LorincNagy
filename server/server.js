@@ -16,7 +16,7 @@ app.use(express.json())
 
 app.get("/api/employees/", async (req, res, next) => {
   try {
-    const { sortBy, sortOrder, positionFilter, levelFilter } = req.query
+    const { sortBy, sortOrder, positionFilter, levelFilter, search } = req.query
 
     let query = {}
 
@@ -27,6 +27,11 @@ app.get("/api/employees/", async (req, res, next) => {
     if (levelFilter) {
       query.level = levelFilter
     }
+
+    if (search) {
+      query.name = { $regex: search, $options: "i" } //robert, vagy Robert alapján filterel/{name:robert}
+    }
+
     let sortOptions = {}
 
     if (sortBy && sortOrder) {
@@ -36,6 +41,7 @@ app.get("/api/employees/", async (req, res, next) => {
     const employees = await EmployeeModel.find(query).sort(sortOptions)
     return res.json(employees)
   } catch (err) {
+    console.log(err)
     return next(err)
   }
 })

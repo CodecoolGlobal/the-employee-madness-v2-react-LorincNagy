@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Loading from "../Components/Loading";
 import EmployeeTable from "../Components/EmployeeTable";
 
@@ -6,10 +7,11 @@ const fetchEmployees = async (
   sortBy,
   sortOrder,
   positionFilter,
-  levelFilter
+  levelFilter,
+  search
 ) => {
   try {
-    let url = "/api/employees";
+    let url = "/api/employees/";
 
     const params = new URLSearchParams();
 
@@ -24,6 +26,9 @@ const fetchEmployees = async (
 
     if (levelFilter) {
       params.append("levelFilter", levelFilter);
+    }
+    if (search) {
+      params.append("search", search);
     }
 
     if (params.toString()) {
@@ -57,6 +62,7 @@ const EmployeeList = () => {
   const [levelFilter, setLevelFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  const { search } = useParams();
 
   const fetchData = async () => {
     try {
@@ -64,7 +70,8 @@ const EmployeeList = () => {
         sortBy,
         sortOrder,
         positionFilter,
-        levelFilter
+        levelFilter,
+        search
       );
       setEmployees(data);
       setLoading(false);
@@ -99,7 +106,7 @@ const EmployeeList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [sortBy, sortOrder, positionFilter, levelFilter]);
+  }, [sortBy, sortOrder, positionFilter, levelFilter, search]);
 
   const handleSort = (field) => {
     let newSortOrder = sortOrder === "asc" ? "desc" : "asc";
