@@ -28,6 +28,7 @@ const fetchEmployees = async (
     if (levelFilter) {
       params.append("levelFilter", levelFilter);
     }
+
     if (search) {
       params.append("search", search);
     }
@@ -64,6 +65,8 @@ const EmployeeList = () => {
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
   const { search } = useParams();
+  const [present, setPresent] = useState([]);
+  const [missingEmployees, setMissingEmployees] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -116,7 +119,15 @@ const EmployeeList = () => {
     setSortOrder(newSortOrder);
   };
 
-  const handleTogglePresent = async () => {
+  const handleTogglePresent = async (employeeId) => {
+    if (present.includes(employeeId)) {
+      setPresent((prevPresent) =>
+        prevPresent.filter((id) => id !== employeeId)
+      );
+    } else {
+      setPresent((prevPresent) => [...prevPresent, employeeId]);
+    }
+
     try {
       const data = await fetchEmployees(
         sortBy,
@@ -126,8 +137,13 @@ const EmployeeList = () => {
         search
       );
       setEmployees(data);
+
+      const updatedMissingEmployees = data.filter(
+        (employee) => !present.includes(employee._id)
+      );
+      setMissingEmployees(updatedMissingEmployees);
     } catch (error) {
-      console.error("Error toggling present:", error);
+      console.error("Error fetching employees:", error);
     }
   };
 
@@ -178,7 +194,7 @@ const EmployeeList = () => {
           onDelete={handleDelete}
           onTogglePresent={handleTogglePresent}
         />
-        <Missing employees={employees} onDelete={handleDelete} />
+        <Missing missingEmployees={missingEmployees} />
       </div>
     </div>
   );

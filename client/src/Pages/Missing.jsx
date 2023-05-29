@@ -1,24 +1,27 @@
-import { Link } from "react-router-dom";
-import "../Components/EmployeeTable/EmployeeTable.css";
+import React from "react";
 
-const Missing = ({ employees, onDelete }) => {
+const Missing = ({ missingEmployees }) => {
+  if (!missingEmployees || missingEmployees.length === 0) {
+    return <div>No missing employees</div>;
+  }
+
   return (
-    <div className="EmployeeTable">
+    <div>
+      <h2>Missing Employees</h2>
       <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Position</th>
+          </tr>
+        </thead>
         <tbody>
-          {employees.map((employee) => (
+          {missingEmployees.map((employee) => (
             <tr key={employee._id}>
               <td>{employee.name}</td>
               <td>{employee.level}</td>
               <td>{employee.position}</td>
-              <td>
-                <Link to={`/update/${employee._id}`}>
-                  <button type="button">Update</button>
-                </Link>
-                <button type="button" onClick={() => onDelete(employee._id)}>
-                  Delete
-                </button>
-              </td>
             </tr>
           ))}
         </tbody>

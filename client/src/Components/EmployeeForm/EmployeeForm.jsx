@@ -1,9 +1,11 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
   const [name, setName] = useState(employee?.name ?? "");
   const [level, setLevel] = useState(employee?.level ?? "");
   const [position, setPosition] = useState(employee?.position ?? "");
+  const [equipments, setEquipments] = useState([]);
+  const [selectedEquipment, setSelectedEquipment] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -14,6 +16,7 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
         name,
         level,
         position,
+        equipment: selectedEquipment,
       });
     }
 
@@ -21,8 +24,33 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
       name,
       level,
       position,
+      equipment: selectedEquipment,
     });
   };
+
+  const fetchEquipments = async () => {
+    try {
+      const response = await fetch("/api/equipments");
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching equipments:", error);
+      throw error;
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const data = await fetchEquipments();
+      setEquipments(data);
+    } catch (error) {
+      console.error("Error fetching equipments:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <form className="EmployeeForm" onSubmit={onSubmit}>
@@ -54,6 +82,23 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
           name="position"
           id="position"
         />
+      </div>
+
+      <div className="control">
+        <label htmlFor="equipment">Equipment:</label>
+        <select
+          id="equipment"
+          name="equipment"
+          value={selectedEquipment}
+          onChange={(e) => setSelectedEquipment(e.target.value)}
+        >
+          <option value="">Select equipment</option>
+          {equipments.map((equipment) => (
+            <option key={equipment._id} value={equipment.name}>
+              {equipment.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="buttons">
