@@ -3,13 +3,26 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const EmployeeSchema = new Schema({
-  name: String,
-  level: String,
-  position: String,
-  equipment: String,
+  name: {
+    type: String,
+    required: false, // Opcionális mező
+  },
+  level: {
+    type: String,
+    required: false, // Opcionális mező
+  },
+  position: {
+    type: String,
+    required: false, // Opcionális mező
+  },
+  equipment: {
+    type: String,
+    required: false, // Opcionális mező
+  },
   favoriteBrand: {
     type: Schema.Types.ObjectId,
     ref: "Brand",
+    required: false, // Opcionális mező
   },
   created: {
     type: Date,
@@ -17,4 +30,6 @@ const EmployeeSchema = new Schema({
   },
 })
 
-module.exports = mongoose.model("Employee", EmployeeSchema)
+const EmployeeModel = mongoose.model("Employee", EmployeeSchema)
+
+module.exports = EmployeeModel

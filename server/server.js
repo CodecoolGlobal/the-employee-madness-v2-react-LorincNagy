@@ -56,6 +56,7 @@ app.post("/api/employees/", async (req, res, next) => {
 
   try {
     const saved = await EmployeeModel.create(employee)
+    console.log(saved)
     return res.json(saved)
   } catch (err) {
     return next(err)

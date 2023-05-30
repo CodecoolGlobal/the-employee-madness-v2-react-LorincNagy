@@ -2,7 +2,12 @@ import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import "./EmployeeTable.css";
 
-const EmployeeTable = ({ employees, onDelete, onTogglePresent }) => {
+const EmployeeTable = ({
+  employees,
+  onDelete,
+  onTogglePresent,
+  toggleSortOrder,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const employeesPerPage = 10;
   const [brands, setBrands] = useState([]);
@@ -26,7 +31,6 @@ const EmployeeTable = ({ employees, onDelete, onTogglePresent }) => {
     try {
       const response = await fetch("/api/brands");
       const data = await response.json();
-      console.log(data);
       setBrands(data);
     } catch (error) {
       console.error("Error fetching brands:", error);
@@ -34,11 +38,12 @@ const EmployeeTable = ({ employees, onDelete, onTogglePresent }) => {
   };
 
   const getBrandName = (brandId) => {
-    const brand = brands.find(
-      (brand) => brand._id.toString() === brandId.toString()
-    );
-    console.log(brand);
-    return brand && brand.name ? brand.name : "";
+    if (!brandId) {
+      return "";
+    }
+
+    const brand = brands.find((brand) => brand._id === brandId);
+    return brand ? brand.name : "";
   };
 
   return (
@@ -46,7 +51,13 @@ const EmployeeTable = ({ employees, onDelete, onTogglePresent }) => {
       <table>
         <thead>
           <tr>
-            <th>Name</th>
+            <th
+              onClick={() => {
+                toggleSortOrder();
+              }}
+            >
+              Name
+            </th>
             <th>Level</th>
             <th>Position</th>
             <th>Favorite Brand</th>
@@ -60,10 +71,7 @@ const EmployeeTable = ({ employees, onDelete, onTogglePresent }) => {
               <td>{employee.name}</td>
               <td>{employee.level}</td>
               <td>{employee.position}</td>
-              <td>
-                {getBrandName(employee.favoriteBrand)}
-                {console.log(employee.favoriteBrand)}
-              </td>
+              <td>{getBrandName(employee.favoriteBrand)}</td>
               <td>
                 <input
                   type="checkbox"

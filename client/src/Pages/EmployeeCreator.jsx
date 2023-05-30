@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EmployeeForm from "../Components/EmployeeForm";
 
-const createEmployee = (employee) => {//create-nél post
+const createEmployee = async (employee) => {
+  //create-nél post
   return fetch("/api/employees", {
     method: "POST",
     headers: {
@@ -19,11 +20,10 @@ const EmployeeCreator = () => {
   const handleCreateEmployee = (employee) => {
     setLoading(true);
 
-    createEmployee(employee)
-      .then(() => {
-        setLoading(false);
-        navigate("/");
-      })
+    createEmployee(employee).then(() => {
+      setLoading(false);
+      navigate("/");
+    });
   };
 
   return (

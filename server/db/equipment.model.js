@@ -1,17 +1,24 @@
-// https://mongoosejs.com/
+const mongoose = require("mongoose")
 
-const mongoose = require("mongoose");
-
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const EquipmentSchema = new Schema({
-  name: String,
-  type: String,
-  amount: Number,
+  name: {
+    type: String,
+    required: false, // Opcionális mező
+  },
+  type: {
+    type: String,
+    required: false, // Opcionális mező
+  },
+  amount: {
+    type: Number,
+    required: false, // Opcionális mező
+  },
   created: {
     type: Date,
     default: Date.now,
   },
-});
+})
 
-module.exports = mongoose.model("Equipment", EquipmentSchema);
+module.exports = mongoose.model("Equipment", EquipmentSchema)

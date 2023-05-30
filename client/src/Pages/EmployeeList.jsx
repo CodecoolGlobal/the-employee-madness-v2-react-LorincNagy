@@ -147,6 +147,12 @@ const EmployeeList = () => {
     }
   };
 
+  const toggleSortOrder = () => {
+    let newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+    setSortBy("name");
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -193,6 +199,7 @@ const EmployeeList = () => {
           employees={employees}
           onDelete={handleDelete}
           onTogglePresent={handleTogglePresent}
+          toggleSortOrder={toggleSortOrder}
         />
         <Missing missingEmployees={missingEmployees} />
       </div>
