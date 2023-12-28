@@ -10,16 +10,14 @@ npm install
 Copy the .env.sample as .env and fill in the environment variables with your personal MongoDB connection URL.
 
 # Prepare the Database
-bash
-Copy code
 cd ./server
 npm run populate
 The populate command will run the populate.js file as a script and generate a bunch of starter data for your database.
 
 # Running the Code
-bash
-Copy code
 cd ./server
+npm start
+It will start the node server.
 npm run dev
 It will start the server with nodemon, so it will watch for changes and restart the server if any of the files change.
 
