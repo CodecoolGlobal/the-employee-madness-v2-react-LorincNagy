@@ -1,4 +1,4 @@
-# Employee Data
+# Employee Data - Learning Project
 ## Overview
 This project is built on the MERN (MongoDB, Express, React, Node.js) stack and is designed to manage employee data efficiently.
 
