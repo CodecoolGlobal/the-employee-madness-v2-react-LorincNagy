@@ -6,13 +6,11 @@ This project is built on the MERN (MongoDB, Express, React, Node.js) stack and i
 ### Install Dependencies
 cd ./server
 npm install
-.env File
-Copy the .env.sample as .env and fill in the environment variables with your personal MongoDB connection URL.
 
 # Prepare the Database
 cd ./server
-npm run populate
-The populate command will run the populate.js file as a script and generate a bunch of starter data for your database.
+.env File
+Copy the .env.sample as .env and fill in the environment variables with your personal MongoDB connection URL.
 
 # Running the Code
 cd ./server
