@@ -19,9 +19,6 @@ It will start the node server.
 npm run dev
 It will start the server with nodemon, so it will watch for changes and restart the server if any of the files change.
 
-# Testing with test.http
-If you'd like to try the endpoints of the REST API, you can check the test.http file for URLs that should work in your environment. If you install the REST Client extension for VS Code, you can actually run these requests directly in your editor.
-
 # Client side
 ## Install Dependencies
 cd ./client
