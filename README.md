@@ -4,8 +4,6 @@ This project is built on the MERN (MongoDB, Express, React, Node.js) stack and i
 
 ## Server side
 ### Install Dependencies
-bash
-Copy code
 cd ./server
 npm install
 .env File
@@ -30,16 +28,12 @@ If you'd like to try the endpoints of the REST API, you can check the test.http 
 
 # Client side
 ## Install Dependencies
-bash
-Copy code
 cd ./client
 npm install
 Proxy
 Pay attention to the port of your REST API. By default, it will bind to port 8080, and the frontend proxy settings depend on this configuration. If you change the port of the backend for any reason, don't forget to update the proxy settings in ./client/package.json accordingly.
 
 ## Running the Code
-bash
-Copy code
 cd ./client
 npm start
 The create-react-app react-scripts package will start your frontend on port 3000, and you can access it at http://localhost:3000 in your preferred browser.
