@@ -36,7 +36,6 @@ The create-react-app react-scripts package will start your frontend on port 3000
 React
 JavaScript/ES6
 HTML/CSS
-REST Client extension for VS Code (for testing)
 ## Backend:
 Node.js
 Express.js
