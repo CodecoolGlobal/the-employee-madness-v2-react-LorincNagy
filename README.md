@@ -1,4 +1,4 @@
-# Employee Data - Learning Project
+# Learning Project
 ## Overview
 This project is built on the MERN (MongoDB, Express, React, Node.js) stack and is designed to manage employee data efficiently.
 
@@ -33,8 +33,8 @@ The create-react-app react-scripts package will start your frontend on port 3000
 
 # Technology Stack
 ## Frontend:
-React
 JavaScript/ES6
+React
 HTML/CSS
 ## Backend:
 Node.js
