@@ -2,6 +2,18 @@
 ## Overview
 This project is built on the MERN (MongoDB, Express, React, Node.js) stack and is designed to manage employee data efficiently.
 
+# Technology Stack
+## Frontend:
+JavaScript/ES6
+React
+HTML/CSS
+## Backend:
+Node.js
+Express.js
+MongoDB
+Mongoose
+This project demonstrates the use of the MERN stack to efficiently manage employee data.
+
 ## Server side
 ### Install Dependencies
 cd ./server
@@ -9,7 +21,10 @@ npm install
 
 # Prepare the Database
 cd ./server
-.env File
+
+## Create an Environment File
+Copy the `.env.sample` file as `.env` using the following command:
+cp .env.sample .env
 Copy the .env.sample as .env and fill in the environment variables with your personal MongoDB connection URL.
 
 # Running the Code
@@ -31,14 +46,4 @@ cd ./client
 npm start
 The create-react-app react-scripts package will start your frontend on port 3000, and you can access it at http://localhost:3000 in your preferred browser.
 
-# Technology Stack
-## Frontend:
-JavaScript/ES6
-React
-HTML/CSS
-## Backend:
-Node.js
-Express.js
-MongoDB
-Mongoose
-This project demonstrates the use of the MERN stack to efficiently manage employee data.
+
